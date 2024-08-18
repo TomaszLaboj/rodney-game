@@ -33,8 +33,6 @@ const walkCycleLeft = [rodneyLeft0, rodneyLeft1, rodneyLeft2, rodneyLeft3];
 let frameIndex = 0;
 let frame;
 
-let row = 0;
-let col = 0;
 let positionX = 0;
 let xSpeed = 10;
 
@@ -43,16 +41,7 @@ function animate() {
     frameIndex = 0;
   }
 
-  frame = walkCycleLeft[frameIndex];
-
-  if (col === 4) {
-    col = 0;
-    row++;
-  }
-
-  if (row === 2) {
-    row = 0;
-  }
+  frame = xSpeed > 0 ? walkCycleRight[frameIndex] : walkCycleLeft[frameIndex];
 
   context.clearRect(positionX, 0, SPRITE_WIDTH, SPRITE_HEIGHT);
 
@@ -67,12 +56,16 @@ function animate() {
     SPRITE_WIDTH,
     SPRITE_HEIGHT
   );
+
   frameIndex++;
+
   positionX += xSpeed;
+
   if (positionX > canvas.clientWidth - SPRITE_WIDTH || positionX < 0) {
     xSpeed *= -1;
   }
 }
+
 image.onload = function () {
   setInterval(animate, 80);
 };
