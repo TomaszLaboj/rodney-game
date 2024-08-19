@@ -33,22 +33,31 @@ const walkCycleLeft = [rodneyLeft0, rodneyLeft1, rodneyLeft2, rodneyLeft3];
 let frameIndex = 0;
 let frame;
 
-let positionX = 0;
+let positionX = 150;
 let xSpeed = 10;
 
 function animate(direction) {
-  if (frameIndex === walkCycleRight.length) {
+  if (
+    frameIndex === walkCycleRight.length ||
+    frameIndex === walkCycleLeft.length
+  ) {
     frameIndex = 0;
   }
 
-  if (direction === "left") {
+  if (direction === "left" && positionX > 0) {
     xSpeed = -10;
     frame = walkCycleLeft[frameIndex];
-  } else if (direction === "right") {
+  } else if (
+    direction === "right" &&
+    positionX < canvas.clientWidth - SPRITE_WIDTH
+  ) {
     xSpeed = 10;
     frame = walkCycleRight[frameIndex];
+  } else {
+    xSpeed = 0;
+    frame = direction === "right" ? walkCycleRight[1] : walkCycleLeft[1];
   }
-
+  console.log(positionX);
   context.clearRect(positionX, 0, SPRITE_WIDTH, SPRITE_HEIGHT);
 
   context.drawImage(
@@ -62,14 +71,8 @@ function animate(direction) {
     SPRITE_WIDTH,
     SPRITE_HEIGHT
   );
-
   frameIndex++;
-
   positionX += xSpeed;
-
-  if (positionX > canvas.clientWidth - SPRITE_WIDTH || positionX < 0) {
-    xSpeed = 0;
-  }
 }
 
 image.onload = function () {
