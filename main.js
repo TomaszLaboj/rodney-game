@@ -42,11 +42,12 @@ function animate(direction) {
   }
 
   if (direction === "left") {
+    xSpeed = -10;
     frame = walkCycleLeft[frameIndex];
   } else if (direction === "right") {
+    xSpeed = 10;
     frame = walkCycleRight[frameIndex];
   }
-  // frame = xSpeed > 0 ? walkCycleRight[frameIndex] : walkCycleLeft[frameIndex];
 
   context.clearRect(positionX, 0, SPRITE_WIDTH, SPRITE_HEIGHT);
 
@@ -67,12 +68,11 @@ function animate(direction) {
   positionX += xSpeed;
 
   if (positionX > canvas.clientWidth - SPRITE_WIDTH || positionX < 0) {
-    xSpeed *= -1;
+    xSpeed = 0;
   }
 }
 
 image.onload = function () {
-  // setInterval(animate, 80);
   window.addEventListener("keydown", (event) => {
     if (event.key == "ArrowLeft") {
       animate("left");
