@@ -36,12 +36,17 @@ let frame;
 let positionX = 0;
 let xSpeed = 10;
 
-function animate() {
+function animate(direction) {
   if (frameIndex === walkCycleRight.length) {
     frameIndex = 0;
   }
 
-  frame = xSpeed > 0 ? walkCycleRight[frameIndex] : walkCycleLeft[frameIndex];
+  if (direction === "left") {
+    frame = walkCycleLeft[frameIndex];
+  } else if (direction === "right") {
+    frame = walkCycleRight[frameIndex];
+  }
+  // frame = xSpeed > 0 ? walkCycleRight[frameIndex] : walkCycleLeft[frameIndex];
 
   context.clearRect(positionX, 0, SPRITE_WIDTH, SPRITE_HEIGHT);
 
@@ -67,5 +72,14 @@ function animate() {
 }
 
 image.onload = function () {
-  setInterval(animate, 80);
+  // setInterval(animate, 80);
+  window.addEventListener("keydown", (event) => {
+    if (event.key == "ArrowLeft") {
+      animate("left");
+      console.log("left");
+    } else if (event.key == "ArrowRight") {
+      animate("right");
+      console.log("right");
+    }
+  });
 };
